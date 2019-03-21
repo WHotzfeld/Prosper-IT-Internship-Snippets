@@ -1,0 +1,17 @@
+/* --- Ensures dropdown menu remains the same size once content is added --- */
+
+@media (max-width: 767px) {
+    nav-collapse-fixed {
+        max-height: 50px;
+    }
+}
+
+@media (min-width: 767px) {
+    span.hide-me {
+        display: none;
+    }
+}
+
+.nav > li > a .inline-list {
+    display: inline;
+}

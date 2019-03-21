@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Clock Demo</title>
+</head>
+<body>
+    <div class="container text-center">
+        <span id="clock">&nbsp;</span>
+    </div>
+</body>
+</html>
+
+<script>
+
+	//Sets up clock interval and declares variables needed to calculate difference between server datetime and client datetime.
+
+//********** NOTE: In live code, "data.ServerMilli" references the following code from a ViewModel:
+// ServerMilli = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(); **********
+
+	function (data) {
+		var tickingClock;
+
+		clearInterval(tickingClock);
+
+		var clientDate = new Date();
+		var serverMilli = data.ServerMilli;
+		var clientMilli = Date.parse(clientDate);
+		var diff = serverMilli - clientMilli;
+
+		tickingClock = setInterval(function () { updateClock(diff) }, 500);
+	}
+
+	//Prints ticking clock beneath login form once the user's email is confirmed as an employee email.
+		function updateClock(diff) {
+			var theDate = new Date();
+			var dateMilli = Date.parse(theDate);
+			var currentDate = new Date(dateMilli + diff);
+			var currentHours = currentDate.getHours();
+			var currentMinutes = currentDate.getMinutes();
+			var currentSeconds = currentDate.getSeconds();
+
+			currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
+			currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
+			var timeOfDay = (currentHours < 12) ? "AM" : "PM";
+			currentHours = (currentHours > 12) ? currentHours - 12 : currentHours;
+			currentHours = (currentHours == 0) ? 12 : currentHours;
+
+			var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+
+			document.getElementById("clock").firstChild.nodeValue = currentTimeString;
+		}
+
+</script>
